@@ -1,0 +1,48 @@
+let saldo = 3000;
+
+const elementoSaldo = document.querySelector(".saldo-valor .valor");
+elementoSaldo.textContent = saldo;
+
+const elementoFormulario = document.querySelector(".block-nova-transacao form");
+elementoFormulario.addEventListener("submit", function (event) {
+    event.preventDefault(); // toda vez que um formulário é submetido a página é carreda. Esse função evita o recarregamento da página quando o formulário é submetido, e dá acesso às informações do formulário
+
+    // verifica se todos os itens do formulario foram preenchidos, tornando-o válido. O item required no html do formulário é o que faz essa validação
+    if (!elementoFormulario.checkValidity()) {
+        alert("Por favor, preencha todos os campos da transação.");
+        return;
+    }
+
+    const inputTipoTransacao =
+        elementoFormulario.querySelector("#tipoTransacao");
+    const inputValor = elementoFormulario.querySelector("#valor");
+    const inputData = elementoFormulario.querySelector("#data");
+
+    let tipoTransacao = inputTipoTransacao.value;
+    let valor = parseFloat(inputValor.value); // valores que retornam de formulário sempre vêm como string, por isso foi feita a conversão para float
+    let data = inputData.value;
+
+    if (tipoTransacao === "Depósito") {
+        saldo += valor;
+    } else if (
+        tipoTransacao === "Transferência" ||
+        tipoTransacao === "Pagamento de Boleto"
+    ) {
+        saldo -= valor;
+    } else {
+        alert("Tipo de transação inválida");
+        return;
+    }
+
+    elementoSaldo.textContent = saldo;
+
+    const novaTransacao = {
+        tipoTransacao: tipoTransacao,
+        valor: valor,
+        data: data,
+    };
+
+    console.log("novaTransacao");
+    console.log(novaTransacao);
+    elementoFormulario.reset(); // limpa o formulário
+});
