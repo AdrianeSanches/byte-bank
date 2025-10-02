@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "target": "ES2022", // serve para definir para qual versão do JS ele deve compilar o TS
+        "outDir": "./dist/js/", // diretório de output, onde devemos colocar todos os arquivos que o TS compilar
+        "noEmitOnError": true // se ele identificar um erro no arquivo TS durante a compilação ele não deve gerar um arquivo JS na pasta de destino. Só deve gerar assim que todos os erros no TS sejam resolvidos
+    },
+    // no include incluímos a pasta onde ele deve procurar os arquivos TS para fazer a compilação
+    "include": ["./src/**/*"]
+}
