@@ -1,5 +1,7 @@
-import { TipoTransacao } from "../types/TipoTransacao";
-import { Transacao } from "../types/Transacao";
+import Conta from "../types/Conta.js"; // por ser um objeto que está sendo exportado como default de um módulo, o import dele não precisa de chaves {}
+import { TipoTransacao } from "../types/TipoTransacao.js";
+import { Transacao } from "../types/Transacao.js";
+import SaldoComponent from "./saldo-component.js";
 
 const elementoFormularioTS = document.querySelector(
     ".block-nova-transacao form"
@@ -29,30 +31,13 @@ elementoFormularioTS.addEventListener("submit", function (event) {
     let valor: number = inputValor.valueAsNumber; // valueAsNumber é uma propriedade existente nos Inputs
     let data: Date = new Date(inputData.value);
 
-    if (tipoTransacao === TipoTransacao.DEPOSITO) {
-        saldoTS += valor;
-    } else if (
-        tipoTransacao === TipoTransacao.TRANSFERENCIA ||
-        tipoTransacao === TipoTransacao.PAGAMENTO_BOLETO
-    ) {
-        saldoTS -= valor;
-    } else {
-        alert("Tipo de transação inválida");
-        return;
-    }
-
-    elementoSaldo.textContent = saldoTS.toLocaleString("pt-br", {
-        currency: "BRL",
-        style: "currency",
-    });
-
     const novaTransacao: Transacao = {
         tipoTransacao: tipoTransacao,
         valor: valor,
         data: data,
     };
 
-    console.log("novaTransacao");
-    console.log(novaTransacao);
+    Conta.registrarTransacao(novaTransacao); // registra uma nova transação
+    SaldoComponent.atualizar(); // atualiza o saldo visualmente
     elementoFormularioTS.reset(); // limpa o formulário
 });

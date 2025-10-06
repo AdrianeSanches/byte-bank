@@ -1,5 +1,5 @@
 // código centralizador de formatadores da aplicação
-import { FormatoData } from "../types/FormatoData";
+import { FormatoData } from "../types/FormatoData.js";
 export function formatarMoeda(valor) {
     return valor.toLocaleString("pt-br", {
         currency: "BRL",
@@ -22,7 +22,7 @@ export function formatarData(data, formato = FormatoData.PADRAO) {
         });
     }
     else {
-        return data.toLocaleDateString("pr-br"); // retorna o formato padrão (DD/MM/AAAA)
+        return data.toLocaleDateString("pr-br"); // retorna no formato padrão do Brasil (DD/MM/AAAA)
     }
 }
 function formatarInformacoes(valor, data, formatoData) {
