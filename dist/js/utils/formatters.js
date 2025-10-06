@@ -1,0 +1,32 @@
+// código centralizador de formatadores da aplicação
+import { FormatoData } from "../types/FormatoData";
+export function formatarMoeda(valor) {
+    return valor.toLocaleString("pt-br", {
+        currency: "BRL",
+        style: "currency",
+    });
+}
+export function formatarData(data, formato = FormatoData.PADRAO) {
+    if (formato === FormatoData.DIA_SEMANA_DIA_MES_ANO) {
+        return data.toLocaleDateString("pt-br", {
+            weekday: "long",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
+    }
+    else if (formato === FormatoData.DIA_MES) {
+        return data.toLocaleDateString("pt-br", {
+            day: "2-digit",
+            month: "2-digit",
+        });
+    }
+    else {
+        return data.toLocaleDateString("pr-br"); // retorna o formato padrão (DD/MM/AAAA)
+    }
+}
+function formatarInformacoes(valor, data, formatoData) {
+    const dataFormatada = formatarData(data, formatoData);
+    const valorFormatado = formatarMoeda(valor);
+    return `${dataFormatada} - ${valorFormatado}`;
+}
