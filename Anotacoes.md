@@ -31,6 +31,14 @@ Para iniciar o módulo, é necessário importar da forma correta no HTML para qu
 
 É comum exportar como default o objeto que está representando o módulo, assim como foi feito no Conta.ts . Importante ressaltar que só pode ter 1 item exportado como default de um módulo. Então geralmente exporta como default quando se tem apenas 1 item exportado de dentro do módulo. Não é obrigatório, mas é o comum.
 
+## Função structuredClone()
+
+const listaTransacoes: Transacao[] = transacoes;
+Atribuindo a variavel transacoes da fora acima estamos atribuindo a referencia dela para a variavel listaTransacoes, o que faz com que qualquer manipulação na variavel listaTransacoes afete a lista original que está em transacoes. Para evitar isso, usamos o comando structuredClone do JS. Ele é novo e copia somente a estrutura do objeto, sem dar acesso a referência do objeto original.
+Forma correta: const listaTransacoes: Transacao[] = structuredClone(transacoes);
+
+OBS: um array também é visto como um objeto, por isso na atribuição simples ele acessa a referência da variável original
+
 ## Tipos Primitivos
 
 let valor: number = 3000;
