@@ -1,7 +1,20 @@
 import { TipoTransacao } from "./TipoTransacao.js";
 import { Transacao } from "./Transacao.js";
 
-let saldo: number = 3000;
+let saldo: number = JSON.parse(localStorage.getItem("saldo")) || 0;
+
+// recuperando transacoes que foram guardadas na localStorage - se tem dados, ele dá o parse, se nao tiver, ele inicia a variável transacoes com um array vazio
+// a arrow function que está sendo criada serve para pegar uma propriedade de dentro do objeto que está retornando da localStorage e tratá-la. No caso abaixo, vamos converter a data para o tipo DATE novamente, porque ela desce da localStorage em forma de string
+const transacoes: Transacao[] =
+    JSON.parse(
+        localStorage.getItem("transacoes"),
+        (key: string, value: string) => {
+            if (key === "data") {
+                return new Date(value);
+            }
+            return value;
+        }
+    ) || [];
 
 function debitar(valor: number): void {
     if (valor <= 0) {
@@ -12,6 +25,7 @@ function debitar(valor: number): void {
     }
 
     saldo -= valor;
+    localStorage.setItem("saldo", JSON.stringify(saldo));
 }
 
 function depositar(valor: number): void {
@@ -19,6 +33,7 @@ function depositar(valor: number): void {
         throw new Error("O valor a ser depositado deve ser maior que zero!");
     }
     saldo += valor;
+    localStorage.setItem("saldo", JSON.stringify(saldo));
 }
 
 // objeto com recursos que irá representar a minha conta
@@ -43,8 +58,13 @@ const Conta = {
             throw new Error("Tipo de transação inválida");
         }
 
+        transacoes.push(novaTransacao); // incluindo nova transação no array de transações
+
         console.log("novaTransacao dentro do objeto Conta");
         console.log(novaTransacao);
+
+        // registrando a transação na localStorage
+        localStorage.setItem("transacoes", JSON.stringify(transacoes));
     },
 };
 
