@@ -36,3 +36,10 @@ function renderizarExtrato() {
     }
     elementoRegistroTransacoesExtrato.innerHTML = htmlRegistroTransacoes;
 }
+const ExtratoComponent = {
+    atualizar() {
+        renderizarExtrato();
+    },
+};
+// deixando visível externamente apenas o objeto ExtratoComponent, o qual só possui o método atualizar()
+export default ExtratoComponent;

@@ -58,6 +58,27 @@ const Conta = {
         }
         return gruposTransacoes;
     },
+    agruparTransacoes() {
+        const resumo = {
+            totalDepositos: 0,
+            totalTransferencias: 0,
+            totalPagamentosBoleto: 0,
+        };
+        this.transacoes.forEach((transacao) => {
+            switch (transacao.tipoTransacao) {
+                case TipoTransacao.DEPOSITO:
+                    resumo.totalDepositos += transacao.valor;
+                    break;
+                case TipoTransacao.TRANSFERENCIA:
+                    resumo.totalTransferencias += transacao.valor;
+                    break;
+                case TipoTransacao.PAGAMENTO_BOLETO:
+                    resumo.totalPagamentosBoleto += transacao.valor;
+                    break;
+            }
+        });
+        return resumo;
+    },
     registrarTransacao(novaTransacao) {
         if (novaTransacao.tipoTransacao === TipoTransacao.DEPOSITO) {
             // saldo += novaTransacao.valor; --> substituindo código para implementação de verificações e lançamentos de erros
@@ -67,6 +88,7 @@ const Conta = {
             novaTransacao.tipoTransacao === TipoTransacao.PAGAMENTO_BOLETO) {
             // saldo -= novaTransacao.valor; --> substituindo código para implementação de verificações e lançamentos de erros
             debitar(novaTransacao.valor);
+            novaTransacao.valor *= -1; // multiplicando por -1 após o valor ser debitado, para quando ele entrar no registro ele entrar negativo
         }
         else {
             throw new Error("Tipo de transação inválida");

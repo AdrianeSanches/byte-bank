@@ -39,6 +39,12 @@ Forma correta: const listaTransacoes: Transacao[] = structuredClone(transacoes);
 
 OBS: um array também é visto como um objeto, por isso na atribuição simples ele acessa a referência da variável original
 
+## Date
+
+let data: Date = new Date(inputData.value + " 00:00:00"); // adicionando o horário na data, pois sem essa inclusão o JS entende que é 1 dia a menos do que realmente é. É um problema do próprio Date
+A solução adota a adição de um horário específico às datas para evitar ambiguidades na interpretação pelo JavaScript. Quando uma data é criada sem fornecer um horário, o JavaScript considera o horário como meia-noite (00:00:00) do dia selecionado. No entanto, a adição do horário "00:00:00" assegura que o início do dia seja claramente definido, eliminando a possibilidade de interpretações incorretas.
+A inclusão de um horário fixo na data cria um ponto de referência consistente, independentemente dos fusos horários ou de ajustes de horário. Isso evita problemas relacionados a mudanças de horário, como o horário de verão, e garante resultados precisos em operações que dependem de informações temporais corretas.
+
 ## Tipos Primitivos
 
 let valor: number = 3000;

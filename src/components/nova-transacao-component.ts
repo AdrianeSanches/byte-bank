@@ -1,6 +1,7 @@
 import Conta from "../types/Conta.js"; // por ser um objeto que está sendo exportado como default de um módulo, o import dele não precisa de chaves {}
 import { TipoTransacao } from "../types/TipoTransacao.js";
 import { Transacao } from "../types/Transacao.js";
+import ExtratoComponent from "./extrato-component.js";
 import SaldoComponent from "./saldo-component.js";
 
 const elementoFormularioTS = document.querySelector(
@@ -31,7 +32,7 @@ elementoFormularioTS.addEventListener("submit", function (event) {
         let tipoTransacao: TipoTransacao =
             inputTipoTransacao.value as TipoTransacao; // convertendo a string que vem do input em TipoTransacao
         let valor: number = inputValor.valueAsNumber; // valueAsNumber é uma propriedade existente nos Inputs
-        let data: Date = new Date(inputData.value);
+        let data: Date = new Date(inputData.value + " 00:00:00"); // adicionando o horário na data, pois sem essa inclusão o JS entende que é 1 dia a menos do que realmente é. É um problema do próprio Date
 
         const novaTransacao: Transacao = {
             tipoTransacao: tipoTransacao,
@@ -41,6 +42,7 @@ elementoFormularioTS.addEventListener("submit", function (event) {
 
         Conta.registrarTransacao(novaTransacao); // registra uma nova transação
         SaldoComponent.atualizar(); // atualiza o saldo visualmente
+        ExtratoComponent.atualizar(); // atualiza o extrato visualmente
         elementoFormularioTS.reset(); // limpa o formulário
     } catch (erro) {
         alert(erro.message);
